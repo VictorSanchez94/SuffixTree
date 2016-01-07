@@ -1,5 +1,7 @@
 package suffixTree;
 
+import java.util.ArrayList;
+
 public class SuffixTree {
 
 	/**
@@ -7,10 +9,16 @@ public class SuffixTree {
 	 */
 	public static void main(String[] args) {
 
-		CompactSuffixTree tree = new CompactSuffixTree(new SimpleSuffixTree("bananas"));
-		String properties = "rankdir=LR; node[shape=box fillcolor=gray95 style=filled]\n";
-		System.out.println("digraph {\n" + properties + tree.root + "}");
+		CompactSuffixTree tree = new CompactSuffixTree(new SimpleSuffixTree("aaabbbc"));
+//		String properties = "rankdir=LR; node[shape=box fillcolor=gray95 style=filled]\n";
+//		System.out.println("digraph {\n" + properties + tree.root + "}");
 
+		System.out.println(tree.root);
+	
+		
+		ArrayList<Integer> result = tree.searchAll("aa");
+		System.out.println(result);
+		
 	}
 
 }

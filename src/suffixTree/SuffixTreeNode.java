@@ -91,4 +91,8 @@ public class SuffixTreeNode {
 	public boolean isLeaf() {
 		return children.size() == 0;
 	}
+	
+	public Collection<SuffixTreeNode> getChildren() {
+		return children;
+	}
 }
