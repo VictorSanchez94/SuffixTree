@@ -16,7 +16,7 @@ public class SuffixTree {
 		System.out.println(tree.root);
 	
 		
-		ArrayList<Integer> result = tree.searchAll("aab");
+		ArrayList<Integer> result = tree.searchAll("aba");
 		System.out.println(result);
 		
 	}
