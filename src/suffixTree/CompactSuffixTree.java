@@ -28,6 +28,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 
 	public ArrayList<Integer> searchAll(String pattern) {
 		ArrayList<Integer> ocurrences = new ArrayList<Integer>();
+		System.out.println("Text " + text);
 		System.out.println("Pattern " + pattern);
 
 		Collection<SuffixTreeNode> children = root.getChildren();
@@ -65,7 +66,11 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 				patternFound += pattern.charAt(patternFound.length());
 				
 				if (pattern.equals(patternFound)) {
-					ocurrences.add(1);
+//					ocurrences.add(1);
+					
+					for (SuffixTreeNode soon:current.getChildren()) {
+						ocurrences.add(soon.charPosition-pattern.length());
+					}
 					return ocurrences;
 				}
 				else {
@@ -83,7 +88,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 							}
 							
 							if (pattern.equals(patternFound)) {
-								ocurrences.add(1);
+//								ocurrences.add(1);
 								return ocurrences;
 							}
 						}
