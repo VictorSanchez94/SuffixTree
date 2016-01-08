@@ -14,8 +14,10 @@ public class SuffixTreeNode {
 	int stringDepth;
 	int id = 0;
 	public static int c;
+	
+	int charPosition;		// character's position in the text
 
-	public SuffixTreeNode(SuffixTreeNode parent, String incomingLabel, int depth, int label, int id) {
+	public SuffixTreeNode(SuffixTreeNode parent, String incomingLabel, int depth, int label, int id, int acumulatedLength) {
 		children = new ArrayList<SuffixTreeNode>();
 		incomingEdge = new SuffixTreeEdge(incomingLabel, label);
 		nodeDepth = depth;
@@ -23,6 +25,8 @@ public class SuffixTreeNode {
 		this.parent = parent;
 		stringDepth = parent.stringDepth + incomingLabel.length();
 		this.id = id;
+	
+		this.charPosition = acumulatedLength+depth;
 	}
 
 	public SuffixTreeNode() {
@@ -31,10 +35,10 @@ public class SuffixTreeNode {
 		label = 0;
 	}
 
-	public void addSuffix(List<String> suffix, int pathIndex) {
+	public void addSuffix(List<String> suffix, int pathIndex, int acumulatedLength) {
 		SuffixTreeNode insertAt = this;
 		insertAt = search(this, suffix);
-		insert(insertAt, suffix, pathIndex);
+		insert(insertAt, suffix, pathIndex, acumulatedLength);
 	}
 
 	private SuffixTreeNode search(SuffixTreeNode startNode, List<String> suffix) {
@@ -55,9 +59,10 @@ public class SuffixTreeNode {
 		return startNode;
 	}
 
-	private void insert(SuffixTreeNode insertAt, List<String> suffix, int pathIndex) {
-		for (String x : suffix) {
-			SuffixTreeNode child = new SuffixTreeNode(insertAt, x, insertAt.nodeDepth + 1, pathIndex, id);
+	private void insert(SuffixTreeNode insertAt, List<String> suffix, int pathIndex, int acumulatedLength) {
+		for (String s:suffix) {
+			SuffixTreeNode child = new SuffixTreeNode(insertAt, s, insertAt.nodeDepth + 1, pathIndex, id, acumulatedLength);
+	
 			insertAt.children.add(child);
 			insertAt = child;
 		}
@@ -74,7 +79,7 @@ public class SuffixTreeNode {
 		} else {
 			this.id = c;
 			result.append(this.parent.id + " -> ");
-			result.append(this.id + "[label=\"" + incomingLabel + "\"];\n");
+			result.append(this.id + "[label=\"" + incomingLabel + "\"] " + " position: " + this.charPosition + "\n");
 		}
 		for (SuffixTreeNode child : children) {
 			c++;

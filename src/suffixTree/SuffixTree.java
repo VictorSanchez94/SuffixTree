@@ -12,9 +12,10 @@ public class SuffixTree {
 		CompactSuffixTree tree = new CompactSuffixTree(new SimpleSuffixTree("aaabbbc"));
 //		String properties = "rankdir=LR; node[shape=box fillcolor=gray95 style=filled]\n";
 //		System.out.println("digraph {\n" + properties + tree.root + "}");
-
 		System.out.println(tree.root);
 	
+		/*SimpleSuffixTree sTree = new SimpleSuffixTree("aaabbbc");
+		System.out.println(sTree.root);*/
 		
 		ArrayList<Integer> result = tree.searchAll("aba");
 		System.out.println(result);
