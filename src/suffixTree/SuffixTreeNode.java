@@ -71,7 +71,7 @@ public class SuffixTreeNode {
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 		String incomingLabel = this.isRoot() ? "" : this.incomingEdge.label;
-		for (int i = 1; i <= this.nodeDepth; i++)
+		for (int i = 1; i < this.nodeDepth; i++)
 			result.append("\t");
 		if (this.isRoot()) {
 			c = 1;
