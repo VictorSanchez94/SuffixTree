@@ -22,8 +22,8 @@ public class SuffixTree {
 		ArrayList<Integer> result = tree.searchAll(pattern);
 		System.out.println(result);
 		System.out.println("Num matches: " + result.size());
-		System.out.println("Texto: " + tree.text);
-		System.out.println("Patrón: " + pattern);
+		System.out.println("Text: " + tree.text);
+		System.out.println("Pattern: " + pattern);
 		
 	}
 
