@@ -18,7 +18,7 @@ public class SimpleSuffixTree extends AbstractSuffixTree {
 			for (int k = i; k < s.length; k++) {
 				suffixList.add(s[k] + "");
 			}
-			super.root.addSuffix(suffixList, i + 1, i, numDoc);
+			super.root.addSuffix(suffixList, i + 1, i, numDoc, false);
 		}
 	}
 	
@@ -31,8 +31,8 @@ public class SimpleSuffixTree extends AbstractSuffixTree {
 			for (int k = i; k < s.length; k++) {
 				suffixList.add(s[k] + "");
 			}
-			System.out.println("Añadiendo sufijo: " + suffixList);
-			super.root.addSuffix(suffixList, i + 1, i, numDoc);
+			System.out.println("Aï¿½adiendo sufijo: " + suffixList);
+			super.root.addSuffix(suffixList, i + 1, i, numDoc, true);
 		}
 	}
 

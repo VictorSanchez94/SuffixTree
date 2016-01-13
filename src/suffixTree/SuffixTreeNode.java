@@ -36,11 +36,21 @@ public class SuffixTreeNode {
 		children = new ArrayList<SuffixTreeNode>();
 		nodeDepth = 0;
 		label = 0;
+		docsNode = new ArrayList<Integer>();
 	}
 
-	public void addSuffix(List<String> suffix, int pathIndex, int acumulatedLength, int numDoc) {
+	public void addSuffix(List<String> suffix, int pathIndex, int acumulatedLength, int numDoc, boolean addingText) {
 		SuffixTreeNode insertAt = this;
-		insertAt = search(this, suffix);
+//		List<String> auxList = new ArrayList<String>(suffix);
+//		System.out.println("AUPAAA " + auxList);
+		if(addingText){
+			insertAt = search(this, suffix, numDoc);
+		}else{
+			insertAt = search(this, suffix);
+		}
+//		System.out.println("AUPAAA2 " + auxList);
+//		int i = auxList.indexOf(suffix.get(0));
+//		auxList = auxList.subList(0, i);
 		insert(insertAt, suffix, pathIndex, acumulatedLength, numDoc);
 	}
 
@@ -57,6 +67,25 @@ public class SuffixTreeNode {
 					return child;
 				}
 				return search(child, suffix);
+			}
+		}
+		return startNode;
+	}
+	
+	private SuffixTreeNode search(SuffixTreeNode startNode, List<String> suffix, int numDoc) {
+		if (suffix.isEmpty()) {
+			throw new IllegalArgumentException(
+					"Empty suffix. Probably no valid simple suffix tree exists for the input.");
+		}
+		Collection<SuffixTreeNode> children = startNode.children;
+		for (SuffixTreeNode child : children) {
+			if (child.incomingEdge.label.equals(suffix.get(0))) {
+				suffix.remove(0);
+				child.docsNode.add(numDoc);
+				if (suffix.isEmpty()) {
+					return child;
+				}
+				return search(child, suffix,numDoc);
 			}
 		}
 		return startNode;
