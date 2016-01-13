@@ -9,21 +9,22 @@ public class SuffixTree {
 	 */
 	public static void main(String[] args) {
 
-		CompactSuffixTree tree = new CompactSuffixTree(new SimpleSuffixTree("asdfasdfasdfasdfasdfqwerqwerqwer"));
-//		CompactSuffixTree tree = new CompactSuffixTree(new SimpleSuffixTree("aaabbbc"));
+//		CompactSuffixTree tree = new CompactSuffixTree(new SimpleSuffixTree("asdfasdfasdfasdfasdfqwerqwerqwer"));
+//		CompactSuffixTree tree = new CompactSuffixTree(new SimpleSuffixTree("aaabbbcccccc"));
 //		String properties = "rankdir=LR; node[shape=box fillcolor=gray95 style=filled]\n";
 //		System.out.println("digraph {\n" + properties + tree.root + "}");
-		System.out.println(tree.root);
+//		System.out.println(tree.root);
 	
-		/*SimpleSuffixTree sTree = new SimpleSuffixTree("aaabbbc");
-		System.out.println(sTree.root);*/
+		SimpleSuffixTree sTree = new SimpleSuffixTree("ab");
+		sTree.addText("abc", 2);
+		System.out.println(sTree.root);
 		
-		String pattern = "asdfasd";
+		/*String pattern = "asdfasd";
 		ArrayList<Integer> result = tree.searchAll(pattern);
 		System.out.println(result);
 		System.out.println("Num matches: " + result.size());
 		System.out.println("Text: " + tree.text);
-		System.out.println("Pattern: " + pattern);
+		System.out.println("Pattern: " + pattern);*/
 		
 	}
 

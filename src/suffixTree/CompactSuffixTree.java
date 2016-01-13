@@ -152,7 +152,6 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 	
 	
 	private SuffixTreeNode getElement(Collection<SuffixTreeNode> children, String element) {
-
 		for (SuffixTreeNode ch : children) {
 			String[] labels = ch.incomingEdge.label.split(", ");
 			for (String s:labels) {

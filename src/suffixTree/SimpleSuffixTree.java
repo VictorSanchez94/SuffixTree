@@ -7,10 +7,10 @@ public class SimpleSuffixTree extends AbstractSuffixTree {
 
 	public SimpleSuffixTree(String text) {
 		super(text);
-		constructTree();
+		constructTree(1);
 	}
 
-	private void constructTree() {
+	private void constructTree(int numDoc) {
 		super.root = new SuffixTreeNode();
 		char[] s = super.text.toCharArray();
 		for (int i = 0; i < s.length; i++) {
@@ -18,7 +18,21 @@ public class SimpleSuffixTree extends AbstractSuffixTree {
 			for (int k = i; k < s.length; k++) {
 				suffixList.add(s[k] + "");
 			}
-			super.root.addSuffix(suffixList, i + 1, i);
+			super.root.addSuffix(suffixList, i + 1, i, numDoc);
+		}
+	}
+	
+	
+	public void addText(String newText, int numDoc) {
+		newText += "$";
+		char[] s = newText.toCharArray();
+		for (int i = 0; i < s.length; i++) {
+			List<String> suffixList = new ArrayList<String>();
+			for (int k = i; k < s.length; k++) {
+				suffixList.add(s[k] + "");
+			}
+			System.out.println("Añadiendo sufijo: " + suffixList);
+			super.root.addSuffix(suffixList, i + 1, i, numDoc);
 		}
 	}
 
