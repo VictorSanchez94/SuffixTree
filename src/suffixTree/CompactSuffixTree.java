@@ -37,10 +37,9 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 		Collection<SuffixTreeNode> children = root.getChildren();
 		String nextElement = Character.toString(pattern.charAt(0));
 		SuffixTreeNode goodChildren = getElement(children, nextElement);
-//		System.out.println("Next element " + nextElement);
 
 		if (goodChildren != null) {
-			return searchAll2(goodChildren, pattern,"");
+			return searchAllAux(goodChildren, pattern,"");
 		}
 		else {
 			return ocurrences;
@@ -48,47 +47,25 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 	}
 	
 	
-	private ArrayList<Integer> searchAll2(SuffixTreeNode current, String pattern, String patternFound) {
-		
-		
-//		String nextElement = Character.toString(pattern.charAt(patternFound.length()));
-		
+	private ArrayList<Integer> searchAllAux(SuffixTreeNode current, String pattern, String patternFound) {
+				
 		String[] labels = current.incomingEdge.label.split(", ");
-		String auxPatternFound = matchLabel3(pattern, patternFound, labels, current.charPosition);
-		
-//		System.out.println(pattern + "   " + auxPatternFound + "  " + ocurrences.size());
-		
-//			
+		String auxPatternFound = matchLabel(pattern, patternFound, labels, current.charPosition);
+				
 		patternFound = auxPatternFound;
 		
-//		
-		
 		if (pattern.equals(patternFound)) {		// Matching
-//					ocurrences.add(1);
-			/*System.out.println(labels[0]);
-			for (SuffixTreeNode soon:current.getChildren()) {
-				ocurrences.add(soon.charPosition-pattern.length());
-			}*/
-//					
-			System.out.println("NULLEANDO PATTERN");
 			patternFound = pattern.substring(1);
 		}
-//				
+			
 		Collection<SuffixTreeNode> children = current.getChildren();
 		String nextElement = Character.toString(pattern.charAt(patternFound.length()));
-//		System.out.println("next element: " + nextElement);
 		SuffixTreeNode goodChildren = getElement(children,nextElement);
 		
-//						System.out.println("; Next element " + nextElement + "; length " + patternFound.length());
-
 		if (goodChildren!= null) {		// COINCIDE EL PATRON, BUSCAR SIGUIENTES SI PROCEDE
-			return searchAll2(goodChildren, pattern, patternFound);
+			return searchAllAux(goodChildren, pattern, patternFound);
 		}
 		else {
-//							System.out.println("No hay hijos buenos");
-//			ArrayList<Integer> nextOcurrences = matchAllLabel(pattern, patternFound, labels, current.charPosition);
-//			ocurrences.addAll(nextOcurrences);
-			
 			System.out.println("Fin");
 			return ocurrences;
 		}
@@ -96,7 +73,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 	}
 
 
-	private String matchLabel3(String pattern, String patternFound, String[] labels, int charPosition) {
+	private String matchLabel(String pattern, String patternFound, String[] labels, int charPosition) {
 
 //		System.out.println(patternFound + "|" + printLabels(labels));
 		String auxPatternFound = patternFound + printLabels(labels);
@@ -118,7 +95,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 			}
 		}
 		
-		// Leer patrón devuelto
+		// Leer patron devuelto
 		String bestLastPattern = "";
 		for (int i=auxPatternFound.length()-pattern.length(); i<auxPatternFound.length(); i++) {
 			if (i<0) i=0;
@@ -126,9 +103,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 			String lastPattern = "";
 
 			for (int j=i; j<auxPatternFound.length(); j++) {
-	//			System.out.println(i + " " + patternIndex);
 				if (Character.toString(auxPatternFound.charAt(j)).equals(Character.toString(pattern.charAt(patternIndex)))) {
-//					System.out.println(i + " " + j + " Añadiendo " + Character.toString(auxPatternFound.charAt(i)));
 					lastPattern += Character.toString(auxPatternFound.charAt(j));
 					patternIndex++;
 				}
@@ -144,10 +119,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 			
 		}
 		
-		
-//		System.out.println("Last pattern found: " + bestLastPattern);
 		return bestLastPattern;
-		
 	}
 	
 	
@@ -170,5 +142,12 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 	}
 	
 
+	public ArrayList<Integer> searchDocOcurrences (String pattern) {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		
+		
+		
+		return list;
+	}
 	
 }
