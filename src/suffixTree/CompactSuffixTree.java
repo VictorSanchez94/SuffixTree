@@ -28,7 +28,8 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 		return node;
 	}
 
-	public ArrayList<Integer> searchAll(String pattern) {
+	
+	public ArrayList<Integer> searchAll(String pattern, boolean searchDocs) {
 		System.out.println("Text " + text);
 		System.out.println("Pattern " + pattern);
 
@@ -40,7 +41,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 //		System.out.println("Next element " + nextElement);
 
 		if (goodChildren != null) {
-			return searchAll2(goodChildren, pattern,"");
+			return searchAll2(goodChildren, pattern,"", searchDocs);
 		}
 		else {
 			return ocurrences;
@@ -48,17 +49,22 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 	}
 	
 	
-	private ArrayList<Integer> searchAll2(SuffixTreeNode current, String pattern, String patternFound) {
+	private ArrayList<Integer> searchAll2(SuffixTreeNode current, String pattern, String patternFound, boolean searchDocs) {
 		
 		
 //		String nextElement = Character.toString(pattern.charAt(patternFound.length()));
 		
 		String[] labels = current.incomingEdge.label.split(", ");
-		String auxPatternFound = matchLabel3(pattern, patternFound, labels, current.charPosition);
+		String auxPatternFound = matchLabel3(pattern, patternFound, labels, current.charPosition, current, searchDocs);
 		
 //		System.out.println(pattern + "   " + auxPatternFound + "  " + ocurrences.size());
 		
 //			
+		
+		if (searchDocs && ocurrences.size()!=0) {
+			return ocurrences;
+		}
+		
 		patternFound = auxPatternFound;
 		
 //		
@@ -82,7 +88,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 //						System.out.println("; Next element " + nextElement + "; length " + patternFound.length());
 
 		if (goodChildren!= null) {		// COINCIDE EL PATRON, BUSCAR SIGUIENTES SI PROCEDE
-			return searchAll2(goodChildren, pattern, patternFound);
+			return searchAll2(goodChildren, pattern, patternFound, searchDocs);
 		}
 		else {
 //							System.out.println("No hay hijos buenos");
@@ -96,7 +102,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 	}
 
 
-	private String matchLabel3(String pattern, String patternFound, String[] labels, int charPosition) {
+	private String matchLabel3(String pattern, String patternFound, String[] labels, int charPosition, SuffixTreeNode current, boolean searchDocs) {
 
 //		System.out.println(patternFound + "|" + printLabels(labels));
 		String auxPatternFound = patternFound + printLabels(labels);
@@ -106,6 +112,8 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 			return auxPatternFound;
 		}
 		
+		boolean skip = false;
+		
 		for (int i=0; i<=auxPatternFound.length()-pattern.length(); i++) {
 			String currentPattern = "";
 			for (int j=0, k=i; j<pattern.length(); j++, k++) {
@@ -114,13 +122,21 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 //			System.out.println("currentPattern: " + currentPattern);
 			if (currentPattern.equals(pattern)) {
 //				System.out.println("MATCH: " + (charPosition+i-patternFound.length()));
-				ocurrences.add(charPosition+i-patternFound.length());
+				
+				if (searchDocs) {
+					ocurrences.addAll(current.docsNode);
+					skip = true;
+					break;
+				}
+				else {
+					ocurrences.add(charPosition+i-patternFound.length());
+				}
 			}
 		}
 		
-		// Leer patrón devuelto
+		// Leer patron devuelto
 		String bestLastPattern = "";
-		for (int i=auxPatternFound.length()-pattern.length(); i<auxPatternFound.length(); i++) {
+		for (int i=auxPatternFound.length()-pattern.length(); i<auxPatternFound.length() && !skip; i++) {
 			if (i<0) i=0;
 			int patternIndex = 0;
 			String lastPattern = "";
@@ -128,7 +144,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 			for (int j=i; j<auxPatternFound.length(); j++) {
 	//			System.out.println(i + " " + patternIndex);
 				if (Character.toString(auxPatternFound.charAt(j)).equals(Character.toString(pattern.charAt(patternIndex)))) {
-//					System.out.println(i + " " + j + " Añadiendo " + Character.toString(auxPatternFound.charAt(i)));
+//					System.out.println(i + " " + j + " Aï¿½adiendo " + Character.toString(auxPatternFound.charAt(i)));
 					lastPattern += Character.toString(auxPatternFound.charAt(j));
 					patternIndex++;
 				}
