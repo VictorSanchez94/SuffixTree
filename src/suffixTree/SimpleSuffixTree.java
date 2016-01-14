@@ -31,6 +31,7 @@ public class SimpleSuffixTree extends AbstractSuffixTree {
 			for (int k = i; k < s.length; k++) {
 				suffixList.add(s[k] + "");
 			}
+
 			super.root.addSuffix(suffixList, i + 1, i, numDoc, true);
 		}
 	}
