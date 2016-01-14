@@ -30,32 +30,30 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 
 	
 	public ArrayList<Integer> searchAll(String pattern, boolean searchDocs) {
-		System.out.println("Text " + text);
-		System.out.println("Pattern " + pattern);
+//		System.out.println("Text " + text);
+//		System.out.println("Pattern " + pattern);
 
 		this.ocurrences = new ArrayList<Integer>();
 		
 		Collection<SuffixTreeNode> children = root.getChildren();
 		String nextElement = Character.toString(pattern.charAt(0));
 		SuffixTreeNode goodChildren = getElement(children, nextElement);
-//		System.out.println("Next element " + nextElement);
 
 		if (goodChildren != null) {
-			return searchAll2(goodChildren, pattern,"", searchDocs);
+			return searchAllAux(goodChildren, pattern,"", searchDocs);
 		}
 		else {
 			return ocurrences;
 		}
 	}
 	
-	
-	private ArrayList<Integer> searchAll2(SuffixTreeNode current, String pattern, String patternFound, boolean searchDocs) {
+	private ArrayList<Integer> searchAllAux(SuffixTreeNode current, String pattern, String patternFound, boolean searchDocs) {
 		
 		
 //		String nextElement = Character.toString(pattern.charAt(patternFound.length()));
 		
 		String[] labels = current.incomingEdge.label.split(", ");
-		String auxPatternFound = matchLabel3(pattern, patternFound, labels, current.charPosition, current, searchDocs);
+		String auxPatternFound = matchLabel(pattern, patternFound, labels, current.charPosition, current, searchDocs);
 		
 //		System.out.println(pattern + "   " + auxPatternFound + "  " + ocurrences.size());
 		
@@ -66,42 +64,27 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 		
 		patternFound = auxPatternFound;
 		
-//		
-		
 		if (pattern.equals(patternFound)) {		// Matching
-//					ocurrences.add(1);
-			/*System.out.println(labels[0]);
-			for (SuffixTreeNode soon:current.getChildren()) {
-				ocurrences.add(soon.charPosition-pattern.length());
-			}*/
-//					
-			System.out.println("NULLEANDO PATTERN");
 			patternFound = pattern.substring(1);
 		}
-//				
+			
 		Collection<SuffixTreeNode> children = current.getChildren();
 		String nextElement = Character.toString(pattern.charAt(patternFound.length()));
-//		System.out.println("next element: " + nextElement);
 		SuffixTreeNode goodChildren = getElement(children,nextElement);
 		
-//						System.out.println("; Next element " + nextElement + "; length " + patternFound.length());
-
 		if (goodChildren!= null) {		// COINCIDE EL PATRON, BUSCAR SIGUIENTES SI PROCEDE
-			return searchAll2(goodChildren, pattern, patternFound, searchDocs);
+			return searchAllAux(goodChildren, pattern, patternFound, searchDocs);
 		}
 		else {
-//							System.out.println("No hay hijos buenos");
-//			ArrayList<Integer> nextOcurrences = matchAllLabel(pattern, patternFound, labels, current.charPosition);
-//			ocurrences.addAll(nextOcurrences);
-			
-			System.out.println("Fin");
+//			System.out.println("Fin");
 			return ocurrences;
 		}
 		
 	}
 
 
-	private String matchLabel3(String pattern, String patternFound, String[] labels, int charPosition, SuffixTreeNode current, boolean searchDocs) {
+
+	private String matchLabel(String pattern, String patternFound, String[] labels, int charPosition, SuffixTreeNode current, boolean searchDocs) {
 
 //		System.out.println(patternFound + "|" + printLabels(labels));
 		String auxPatternFound = patternFound + printLabels(labels);
@@ -141,9 +124,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 			String lastPattern = "";
 
 			for (int j=i; j<auxPatternFound.length(); j++) {
-	//			System.out.println(i + " " + patternIndex);
 				if (Character.toString(auxPatternFound.charAt(j)).equals(Character.toString(pattern.charAt(patternIndex)))) {
-//					System.out.println(i + " " + j + " A�adiendo " + Character.toString(auxPatternFound.charAt(i)));
 					lastPattern += Character.toString(auxPatternFound.charAt(j));
 					patternIndex++;
 				}
@@ -159,10 +140,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 			
 		}
 		
-		
-//		System.out.println("Last pattern found: " + bestLastPattern);
 		return bestLastPattern;
-		
 	}
 	
 	
@@ -190,7 +168,5 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 		for (String aux:labels) s += aux;
 		return s;
 	}
-	
-
 	
 }
