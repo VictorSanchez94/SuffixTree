@@ -8,6 +8,7 @@ public class SuffixTree {
 	 * References: http://en.literateprograms.org/index.php?title=Special:DownloadCode/Suffix_tree_(Java)&oldid=18684
 	 */
 	public static void main(String[] args) {
+
 		if(args.length == 2){		//Buscar todas las apariciones del patron en un texto
 			String pattern = args[0];
 			String text = args[1];
@@ -69,9 +70,7 @@ public class SuffixTree {
 					+ "\tSuffixTree <patron> <texto>\n"
 					+ "\tSuffixTree <patron> <numTextos> <texto>{numTextos}");
 		}
-		
-		
-		
+
 		
 		
 //		SimpleSuffixTree sTree = new SimpleSuffixTree("aaabbbc");
