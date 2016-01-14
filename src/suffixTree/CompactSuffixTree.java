@@ -30,8 +30,8 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 
 	
 	public ArrayList<Integer> searchAll(String pattern, boolean searchDocs) {
-		System.out.println("Text " + text);
-		System.out.println("Pattern " + pattern);
+//		System.out.println("Text " + text);
+//		System.out.println("Pattern " + pattern);
 
 		this.ocurrences = new ArrayList<Integer>();
 		
@@ -77,7 +77,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 			return searchAllAux(goodChildren, pattern, patternFound, searchDocs);
 		}
 		else {
-			System.out.println("Fin");
+//			System.out.println("Fin");
 			return ocurrences;
 		}
 		
@@ -161,15 +161,6 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 		String s = "";
 		for (String aux:labels) s += aux;
 		return s;
-	}
-	
-
-	public ArrayList<Integer> searchDocOcurrences (String pattern) {
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		
-		
-		
-		return list;
 	}
 	
 }

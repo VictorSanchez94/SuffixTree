@@ -2,8 +2,6 @@ package suffixTree;
 
 import java.util.ArrayList;
 
-import sun.java2d.pipe.SpanShapeRenderer.Simple;
-
 public class SuffixTree {
 
 	/**
@@ -47,9 +45,19 @@ public class SuffixTree {
 					sTree.addText(args[i], j);
 				}
 				CompactSuffixTree cTree = new CompactSuffixTree(sTree);
-				
 				System.out.println("Buscando patron...");
-				
+				ArrayList<Integer> docs = cTree.searchAll(pattern, true);
+				if(docs.isEmpty()){
+					System.out.printf("No se ha encontrado el patrón '%s' en los textos.\n", pattern);
+				}else if(docs.size() == 1){
+					System.out.printf("El patron '%s' aparece en el texto %d.\n", pattern, docs.get(0));
+				}else{
+					System.out.printf("El patron '%s' aparece en los textos:\n", pattern);
+					System.out.print("\t");
+					for (Integer i : docs){
+						System.out.printf("%d ", i);
+					}
+				}
 				
 				
 			}else{
@@ -66,20 +74,20 @@ public class SuffixTree {
 		
 		
 		
-		SimpleSuffixTree sTree = new SimpleSuffixTree("aaabbbc");
-		sTree.addText("aaab", 2);
-		sTree.addText("abb", 3);
-		System.out.println(sTree.root);
-		
-		CompactSuffixTree tree = new CompactSuffixTree(sTree);
-		System.out.println(tree.root);
-		
-		String pattern = "abb";
-		ArrayList<Integer> result = tree.searchAll(pattern, true);
-		System.out.println(result);
-		System.out.println("Num matches: " + result.size());
-		System.out.println("Text: " + tree.text);
-		System.out.println("Pattern: " + pattern);
+//		SimpleSuffixTree sTree = new SimpleSuffixTree("aaabbbc");
+//		sTree.addText("aaab", 2);
+//		sTree.addText("abb", 3);
+//		System.out.println(sTree.root);
+//		
+//		CompactSuffixTree tree = new CompactSuffixTree(sTree);
+//		System.out.println(tree.root);
+//		
+//		String pattern = "abb";
+//		ArrayList<Integer> result = tree.searchAll(pattern, true);
+//		System.out.println(result);
+//		System.out.println("Num matches: " + result.size());
+//		System.out.println("Text: " + tree.text);
+//		System.out.println("Pattern: " + pattern);
 		
 	}
 
