@@ -15,8 +15,8 @@ public class SuffixTree {
 //		System.out.println("digraph {\n" + properties + tree.root + "}");
 //		System.out.println(tree.root);
 	
-		SimpleSuffixTree sTree = new SimpleSuffixTree("ab");
-		sTree.addText("abc", 2);
+		SimpleSuffixTree sTree = new SimpleSuffixTree("aa");
+		sTree.addText("aaaaaac", 2);
 		System.out.println(sTree.root);
 		
 		/*String pattern = "asdfasd";

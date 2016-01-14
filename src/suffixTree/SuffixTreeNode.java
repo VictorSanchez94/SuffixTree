@@ -2,6 +2,7 @@ package suffixTree;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 public class SuffixTreeNode {
@@ -16,7 +17,7 @@ public class SuffixTreeNode {
 	public static int c;
 	
 	int charPosition;		// character's position in the text
-	ArrayList<Integer> docsNode;
+	HashSet<Integer> docsNode;
 
 	public SuffixTreeNode(SuffixTreeNode parent, String incomingLabel, int depth, int label, int id, int acumulatedLength, int numDoc) {
 		children = new ArrayList<SuffixTreeNode>();
@@ -28,7 +29,7 @@ public class SuffixTreeNode {
 		this.id = id;
 	
 		this.charPosition = acumulatedLength+depth;
-		this.docsNode = new ArrayList<Integer>();
+		this.docsNode = new HashSet<Integer>();
 		this.docsNode.add(numDoc);
 	}
 
@@ -36,7 +37,7 @@ public class SuffixTreeNode {
 		children = new ArrayList<SuffixTreeNode>();
 		nodeDepth = 0;
 		label = 0;
-		docsNode = new ArrayList<Integer>();
+		docsNode = new HashSet<Integer>();
 	}
 
 	public void addSuffix(List<String> suffix, int pathIndex, int acumulatedLength, int numDoc, boolean addingText) {
@@ -105,19 +106,19 @@ public class SuffixTreeNode {
 //			insertAt = child;
 		}
 		
-		
-		while (insertAt.parent != null && insertAt.parent.docsNode != null) {
-			if (insertAt.parent.docsNode.contains(numDoc)) {
-				break;
-			}
-			else {
-				insertAt.parent.docsNode.add(numDoc);
-			}
-		}
+//		
+//		while (insertAt.parent != null && insertAt.parent.docsNode != null) {
+//			if (insertAt.parent.docsNode.contains(numDoc)) {
+//				break;
+//			}
+//			else {
+//				insertAt.parent.docsNode.add(numDoc);
+//			}
+//		}
 		
 	}
 	
-	private boolean existNode(Collection<SuffixTreeNode> children, String s, int numDoc) {
+	/*private boolean existNode(Collection<SuffixTreeNode> children, String s, int numDoc) {
 		
 		System.out.println("Estamos dentro");
 		for (SuffixTreeNode son:children) {
@@ -129,7 +130,7 @@ public class SuffixTreeNode {
 			}
 		}
 		return false;
-	}
+	}*/
 
 	public String toString() {
 		StringBuilder result = new StringBuilder();
