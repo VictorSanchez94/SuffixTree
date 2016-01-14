@@ -8,7 +8,7 @@ public class SuffixTree {
 	 * References: http://en.literateprograms.org/index.php?title=Special:DownloadCode/Suffix_tree_(Java)&oldid=18684
 	 */
 	public static void main(String[] args) {
-		if(args.length == 2){
+		if(args.length == 2){		//Buscar todas las apariciones del patron en un texto
 			String pattern = args[0];
 			String text = args[1];
 			System.out.println("Creando arbol compacto de sufijos...");
@@ -27,7 +27,8 @@ public class SuffixTree {
 					System.out.printf("%d ", i);
 				}
 			}
-		}else if(args.length >= 3){
+			
+		}else if(args.length >= 3){		//Buscar los textos que contienen el patron
 			String pattern = args[0];
 			int numTexts = 0;
 			try{
@@ -58,12 +59,11 @@ public class SuffixTree {
 						System.out.printf("%d ", i);
 					}
 				}
-				
-				
 			}else{
-				System.err.println("ERROR. Numero de textos introducido como segundo parametro no coincide con el numero\n"
+				System.err.println("ERROR. Numero de textos introducidos por parametros no coincide con el numero\n"
 						+ "de textos introducidos");
 			}
+			
 		}else{
 			System.err.println("Entrada invalida. Formato de ejecucion:\n"
 					+ "\tSuffixTree <patron> <texto>\n"
