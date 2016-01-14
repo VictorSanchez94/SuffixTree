@@ -55,9 +55,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 		String[] labels = current.incomingEdge.label.split(", ");
 		String auxPatternFound = matchLabel(pattern, patternFound, labels, current.charPosition, current, searchDocs);
 		
-//		System.out.println(pattern + "   " + auxPatternFound + "  " + ocurrences.size());
-		
-//			
+//		System.out.println(pattern + "   " + auxPatternFound + "  " + ocurrences.size());		
 		
 		if (searchDocs && ocurrences.size()!=0) {
 			return ocurrences;

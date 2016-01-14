@@ -41,8 +41,8 @@ public class SuffixTree {
 			}
 			if(args.length == (numTexts+2)){
 				System.out.println("Creando arbol compacto de sufijos...");
-				SimpleSuffixTree sTree = new SimpleSuffixTree(args[3]);
-				for(int i=4, j=2; i<args.length; i++, j++){
+				SimpleSuffixTree sTree = new SimpleSuffixTree(args[2]);
+				for(int i=3, j=2; i<args.length; i++, j++){
 					sTree.addText(args[i], j);
 				}
 				CompactSuffixTree cTree = new CompactSuffixTree(sTree);
