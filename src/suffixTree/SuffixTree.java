@@ -2,6 +2,8 @@ package suffixTree;
 
 import java.util.ArrayList;
 
+import sun.java2d.pipe.SpanShapeRenderer.Simple;
+
 public class SuffixTree {
 
 	/**
@@ -29,12 +31,27 @@ public class SuffixTree {
 			}
 		}else if(args.length >= 3){
 			String pattern = args[0];
-			int numTexts = Integer.parseInt(args[1]);
+			int numTexts = 0;
+			try{
+				numTexts = Integer.parseInt(args[1]);
+			}catch(NumberFormatException ex){
+				System.err.println("Entrada invalida. Formato de ejecucion:\n"
+						+ "\tSuffixTree <patron> <texto>\n"
+						+ "\tSuffixTree <patron> <numTextos> <texto>{numTextos}");
+				System.exit(1);
+			}
 			if(args.length == (numTexts+2)){
-				String[] texts = new String[numTexts];
-				for(int i=3, j=0; i<args.length; i++, j++){
-					texts[j] = args[i];
+				System.out.println("Creando arbol compacto de sufijos...");
+				SimpleSuffixTree sTree = new SimpleSuffixTree(args[3]);
+				for(int i=4, j=2; i<args.length; i++, j++){
+					sTree.addText(args[i], j);
 				}
+				CompactSuffixTree cTree = new CompactSuffixTree(sTree);
+				
+				System.out.println("Buscando patron...");
+				
+				
+				
 			}else{
 				System.err.println("ERROR. Numero de textos introducido como segundo parametro no coincide con el numero\n"
 						+ "de textos introducidos");
