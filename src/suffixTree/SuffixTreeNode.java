@@ -42,16 +42,11 @@ public class SuffixTreeNode {
 
 	public void addSuffix(List<String> suffix, int pathIndex, int acumulatedLength, int numDoc, boolean addingText) {
 		SuffixTreeNode insertAt = this;
-//		List<String> auxList = new ArrayList<String>(suffix);
-//		System.out.println("AUPAAA " + auxList);
 		if(addingText){
 			insertAt = search(this, suffix, numDoc);
 		}else{
 			insertAt = search(this, suffix);
 		}
-//		System.out.println("AUPAAA2 " + auxList);
-//		int i = auxList.indexOf(suffix.get(0));
-//		auxList = auxList.subList(0, i);
 		insert(insertAt, suffix, pathIndex, acumulatedLength, numDoc);
 	}
 
@@ -99,38 +94,9 @@ public class SuffixTreeNode {
 			insertAt.children.add(child);
 			insertAt = child;
 			
-//			Collection<SuffixTreeNode> children = insertAt.children;
-//			if (!existNode(children, s, numDoc)) {
-//				insertAt.children.add(child);
-//			}
-//			insertAt = child;
 		}
-		
-//		
-//		while (insertAt.parent != null && insertAt.parent.docsNode != null) {
-//			if (insertAt.parent.docsNode.contains(numDoc)) {
-//				break;
-//			}
-//			else {
-//				insertAt.parent.docsNode.add(numDoc);
-//			}
-//		}
 		
 	}
-	
-	/*private boolean existNode(Collection<SuffixTreeNode> children, String s, int numDoc) {
-		
-		System.out.println("Estamos dentro");
-		for (SuffixTreeNode son:children) {
-			System.out.println("AAAAAAAAAAAAAAAA " + "   " + son.incomingEdge.label + "  " + s + "   " + numDoc);
-			if (son.incomingEdge.label.equals(s)) {
-				System.out.println("AAAAAAAAAAAAAAAA " + "   " + son.incomingEdge.label + "  " + numDoc);
-				son.docsNode.add(numDoc);
-				return true;
-			}
-		}
-		return false;
-	}*/
 
 	public String toString() {
 		StringBuilder result = new StringBuilder();
