@@ -28,7 +28,8 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 		return node;
 	}
 
-	public ArrayList<Integer> searchAll(String pattern) {
+	
+	public ArrayList<Integer> searchAll(String pattern, boolean searchDocs) {
 		System.out.println("Text " + text);
 		System.out.println("Pattern " + pattern);
 
@@ -39,19 +40,29 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 		SuffixTreeNode goodChildren = getElement(children, nextElement);
 
 		if (goodChildren != null) {
-			return searchAllAux(goodChildren, pattern,"");
+			return searchAllAux(goodChildren, pattern,"", searchDocs);
 		}
 		else {
 			return ocurrences;
 		}
 	}
 	
-	
-	private ArrayList<Integer> searchAllAux(SuffixTreeNode current, String pattern, String patternFound) {
-				
+	private ArrayList<Integer> searchAllAux(SuffixTreeNode current, String pattern, String patternFound, boolean searchDocs) {
+		
+		
+//		String nextElement = Character.toString(pattern.charAt(patternFound.length()));
+		
 		String[] labels = current.incomingEdge.label.split(", ");
-		String auxPatternFound = matchLabel(pattern, patternFound, labels, current.charPosition);
-				
+		String auxPatternFound = matchLabel(pattern, patternFound, labels, current.charPosition, current, searchDocs);
+		
+//		System.out.println(pattern + "   " + auxPatternFound + "  " + ocurrences.size());
+		
+//			
+		
+		if (searchDocs && ocurrences.size()!=0) {
+			return ocurrences;
+		}
+		
 		patternFound = auxPatternFound;
 		
 		if (pattern.equals(patternFound)) {		// Matching
@@ -63,7 +74,7 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 		SuffixTreeNode goodChildren = getElement(children,nextElement);
 		
 		if (goodChildren!= null) {		// COINCIDE EL PATRON, BUSCAR SIGUIENTES SI PROCEDE
-			return searchAllAux(goodChildren, pattern, patternFound);
+			return searchAllAux(goodChildren, pattern, patternFound, searchDocs);
 		}
 		else {
 			System.out.println("Fin");
@@ -73,7 +84,8 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 	}
 
 
-	private String matchLabel(String pattern, String patternFound, String[] labels, int charPosition) {
+
+	private String matchLabel(String pattern, String patternFound, String[] labels, int charPosition, SuffixTreeNode current, boolean searchDocs) {
 
 //		System.out.println(patternFound + "|" + printLabels(labels));
 		String auxPatternFound = patternFound + printLabels(labels);
@@ -83,6 +95,8 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 			return auxPatternFound;
 		}
 		
+		boolean skip = false;
+		
 		for (int i=0; i<=auxPatternFound.length()-pattern.length(); i++) {
 			String currentPattern = "";
 			for (int j=0, k=i; j<pattern.length(); j++, k++) {
@@ -91,13 +105,21 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 //			System.out.println("currentPattern: " + currentPattern);
 			if (currentPattern.equals(pattern)) {
 //				System.out.println("MATCH: " + (charPosition+i-patternFound.length()));
-				ocurrences.add(charPosition+i-patternFound.length());
+				
+				if (searchDocs) {
+					ocurrences.addAll(current.docsNode);
+					skip = true;
+					break;
+				}
+				else {
+					ocurrences.add(charPosition+i-patternFound.length());
+				}
 			}
 		}
 		
 		// Leer patron devuelto
 		String bestLastPattern = "";
-		for (int i=auxPatternFound.length()-pattern.length(); i<auxPatternFound.length(); i++) {
+		for (int i=auxPatternFound.length()-pattern.length(); i<auxPatternFound.length() && !skip; i++) {
 			if (i<0) i=0;
 			int patternIndex = 0;
 			String lastPattern = "";

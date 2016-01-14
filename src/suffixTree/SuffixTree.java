@@ -17,7 +17,7 @@ public class SuffixTree {
 			SimpleSuffixTree sTree = new SimpleSuffixTree(text);
 			CompactSuffixTree cTree = new CompactSuffixTree(sTree);
 			System.out.println("Buscando patron...");
-			ArrayList<Integer> list = cTree.searchAll(pattern);
+			ArrayList<Integer> list = cTree.searchAll(pattern, false);
 			if(list.isEmpty()){
 				System.out.printf("No se ha encontrado el patrón '%s' en el texto.\n", pattern);
 			}else if(list.size() == 1){
@@ -64,17 +64,22 @@ public class SuffixTree {
 		
 		
 		
-	
-//		SimpleSuffixTree sTree = new SimpleSuffixTree("aa");
-//		sTree.addText("aaaaaac", 2);
-//		sTree.addText("aacb", 3);
-//		System.out.println(sTree.root);
-//		System.out.println("============================================================================================\n");
-//		CompactSuffixTree cTree = new CompactSuffixTree(sTree);
-//		System.out.println(cTree.root);
-//		
-//		ArrayList<Integer> list = cTree.searchAll("ac");
-//		System.out.println(list);
+		
+		
+		SimpleSuffixTree sTree = new SimpleSuffixTree("aaabbbc");
+		sTree.addText("aaab", 2);
+		sTree.addText("abb", 3);
+		System.out.println(sTree.root);
+		
+		CompactSuffixTree tree = new CompactSuffixTree(sTree);
+		System.out.println(tree.root);
+		
+		String pattern = "abb";
+		ArrayList<Integer> result = tree.searchAll(pattern, true);
+		System.out.println(result);
+		System.out.println("Num matches: " + result.size());
+		System.out.println("Text: " + tree.text);
+		System.out.println("Pattern: " + pattern);
 		
 	}
 
