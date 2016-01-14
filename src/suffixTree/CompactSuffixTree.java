@@ -60,7 +60,6 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 //		System.out.println(pattern + "   " + auxPatternFound + "  " + ocurrences.size());
 		
 //			
-		
 		if (searchDocs && ocurrences.size()!=0) {
 			return ocurrences;
 		}
@@ -168,6 +167,13 @@ public class CompactSuffixTree extends AbstractSuffixTree {
 	
 	
 	private SuffixTreeNode getElement(Collection<SuffixTreeNode> children, String element) {
+		for (SuffixTreeNode ch : children) {
+			String[] labels = ch.incomingEdge.label.split(", ");
+			if (labels[0].equals(element)) {
+				return ch;
+			}
+		}	
+			
 		for (SuffixTreeNode ch : children) {
 			String[] labels = ch.incomingEdge.label.split(", ");
 			for (String s:labels) {

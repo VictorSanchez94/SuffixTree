@@ -9,15 +9,15 @@ public class SuffixTree {
 	 */
 	public static void main(String[] args) {
 	
-		SimpleSuffixTree sTree = new SimpleSuffixTree("aaabbbc");
-		sTree.addText("aaab", 2);
-		sTree.addText("abb", 3);
-		System.out.println(sTree.root);
+		SimpleSuffixTree sTree = new SimpleSuffixTree("rsakkldnaabckasklkapioagj");
+		sTree.addText("afsklhanagn", 2);
+		sTree.addText("qgimapokapkfañabc", 3);
+//		System.out.println(sTree.root);
 		
 		CompactSuffixTree tree = new CompactSuffixTree(sTree);
 		System.out.println(tree.root);
 		
-		String pattern = "abb";
+		String pattern = "dsadasdasd";
 		ArrayList<Integer> result = tree.searchAll(pattern, true);
 		System.out.println(result);
 		System.out.println("Num matches: " + result.size());
