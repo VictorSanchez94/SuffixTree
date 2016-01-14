@@ -1,6 +1,9 @@
 package suffixTree;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class SuffixTree {
 
@@ -9,7 +12,40 @@ public class SuffixTree {
 	 */
 	public static void main(String[] args) {
 
-		if(args.length == 2){		//Buscar todas las apariciones del patron en un texto
+		if(args[2].equalsIgnoreCase("-f")){
+			String pattern = args[0];
+			int numTexts = 0;
+			try{
+				numTexts = Integer.parseInt(args[1]);
+			}catch(NumberFormatException ex){
+				System.err.println("Entrada invalida. Formato de ejecucion:\n"
+						+ "\tSuffixTree <patron> <texto>\n"
+						+ "\tSuffixTree <patron> <numTextos> [-f] <texto>{numTextos}");
+				System.exit(1);
+			}
+			System.out.println("Creando arbol compacto de sufijos...");
+			String s = parseGen(args[3]);
+			SimpleSuffixTree sTree = new SimpleSuffixTree(s);
+			for(int i=4,j=2; i<args.length; i++, j++){
+				s = parseGen(args[i]);
+				sTree.addText(s, j);
+			}
+			CompactSuffixTree cTree = new CompactSuffixTree(sTree);
+			System.out.println("Buscando patron...");
+			ArrayList<Integer> docs = cTree.searchAll(pattern, true);
+			if(docs.isEmpty()){
+				System.out.printf("No se ha encontrado el patrón '%s' en los textos.\n", pattern);
+			}else if(docs.size() == 1){
+				System.out.printf("El patron '%s' aparece en el texto %d.\n", pattern, docs.get(0));
+			}else{
+				System.out.printf("El patron '%s' aparece en los textos:\n", pattern);
+				System.out.print("\t");
+				for (Integer i : docs){
+					System.out.printf("%d ", i);
+				}
+			}
+			
+		}else if(args.length == 2){		//Buscar todas las apariciones del patron en un texto
 			String pattern = args[0];
 			String text = args[1];
 			System.out.println("Creando arbol compacto de sufijos...");
@@ -88,6 +124,26 @@ public class SuffixTree {
 //		System.out.println("Text: " + tree.text);
 //		System.out.println("Pattern: " + pattern);
 		
+	}
+	
+	private static String parseGen (String path) {
+		Scanner sc;
+		try {
+			sc = new Scanner(new File(path));
+			String s = "";
+			String aux;
+			while(sc.hasNextLine()){
+				aux = sc.nextLine().replaceAll("\n", "");
+				if(!aux.substring(0, 1).equals(">")){
+					s += aux;
+				}
+			}
+			sc.close();
+			return s;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
