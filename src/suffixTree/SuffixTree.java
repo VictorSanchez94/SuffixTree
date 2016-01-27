@@ -12,7 +12,7 @@ public class SuffixTree {
 	 */
 	public static void main(String[] args) {
 
-		if(args.length >= 3){		//Buscar los textos que contienen el patron
+		if(args.length > 3){		//Buscar los textos que contienen el patron
 			
 			if(args[2].equalsIgnoreCase("-f")){
 				String pattern = args[0];
@@ -86,6 +86,25 @@ public class SuffixTree {
 				
 			}
 		
+		}else if(args.length == 3 && args[1].equalsIgnoreCase("-f")){	//Buscar todas las apariciones del patron en un fichero
+			String pattern = args[0];
+			String text = parseGen(args[2]);
+			System.out.println("Creando arbol compacto de sufijos...");
+			SimpleSuffixTree sTree = new SimpleSuffixTree(text);
+			CompactSuffixTree cTree = new CompactSuffixTree(sTree);
+			System.out.println("Buscando patron...");
+			ArrayList<Integer> list = cTree.searchAll(pattern, false);
+			if(list.isEmpty()){
+				System.out.printf("No se ha encontrado el patrón '%s' en el texto.\n", pattern);
+			}else if(list.size() == 1){
+				System.out.printf("El patron '%s' aparece en la posicion %d del texto.\n", pattern, list.get(0));
+			}else{
+				System.out.printf("El patron '%s' aparece en el texto en las posiciones:\n", pattern);
+				System.out.print("\t");
+				for (Integer i : list){
+					System.out.printf("%d ", i);
+				}
+			}
 		}else if(args.length == 2){		//Buscar todas las apariciones del patron en un texto
 			String pattern = args[0];
 			String text = args[1];
