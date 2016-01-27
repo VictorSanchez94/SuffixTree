@@ -3,10 +3,15 @@ package suffixTree;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class SuffixTree {
 
+	private static final String[] VARS = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", 
+			"k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+	
+	
 	/**
 	 * References: http://en.literateprograms.org/index.php?title=Special:DownloadCode/Suffix_tree_(Java)&oldid=18684
 	 */
@@ -19,6 +24,29 @@ public class SuffixTree {
 				int lengthText = Integer.parseInt(args[3]);
 				int numTexts = Integer.parseInt(args[4]);
 				
+				System.out.println("Creando arbol de sufijos con " + numTexts + " textos aleatorios");
+				
+				SimpleSuffixTree sTree = new SimpleSuffixTree(getRandomString(lengthText, numVar));
+				for (int i=1; i<numTexts; i++) {
+					sTree.addText(getRandomString(lengthText, numVar), i);
+				}
+				
+				CompactSuffixTree cTree = new CompactSuffixTree(sTree);
+				String pattern = getRandomString(lengthPattern, numVar);
+				
+				long t1 = System.currentTimeMillis();
+				ArrayList<Integer> results;
+				if (numTexts == 1) {
+					System.out.println("Buscando todas las posiciones de un patron de longitud " + lengthPattern + " en el arbolde sufijos");
+					results = cTree.searchAll(pattern, false);
+				}
+				else {
+					System.out.println("Buscando los documents que contienen un patron de longitud " + lengthPattern + " en el arbolde sufijos");
+					results = cTree.searchAll(pattern, true);
+				}
+				long t2 = System.currentTimeMillis();
+				System.out.println("Tiempo empleado en la busqueda: " + (t2-t1) + " ms.");
+
 			}else{
 				System.err.println("ERROR. Funcion con patron y textos aleatorios mal invocada.");
 			}
@@ -177,6 +205,16 @@ public class SuffixTree {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+
+	private static String getRandomString(int length, int numVariables) {
+		String s = "";
+		Random r  = new Random();
+		for (int i=0; i<length; i++) {
+			s += VARS[r.nextInt(numVariables)];
+		}
+		return s;
 	}
 
 }
