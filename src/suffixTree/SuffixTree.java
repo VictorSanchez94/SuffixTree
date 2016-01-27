@@ -12,39 +12,80 @@ public class SuffixTree {
 	 */
 	public static void main(String[] args) {
 
-		if(args[2].equalsIgnoreCase("-f")){
-			String pattern = args[0];
-			int numTexts = 0;
-			try{
-				numTexts = Integer.parseInt(args[1]);
-			}catch(NumberFormatException ex){
-				System.err.println("Entrada invalida. Formato de ejecucion:\n"
-						+ "\tSuffixTree <patron> <texto>\n"
-						+ "\tSuffixTree <patron> <numTextos> [-f] <texto>{numTextos}");
-				System.exit(1);
-			}
-			System.out.println("Creando arbol compacto de sufijos...");
-			String s = parseGen(args[3]);
-			SimpleSuffixTree sTree = new SimpleSuffixTree(s);
-			for(int i=4,j=2; i<args.length; i++, j++){
-				s = parseGen(args[i]);
-				sTree.addText(s, j);
-			}
-			CompactSuffixTree cTree = new CompactSuffixTree(sTree);
-			System.out.println("Buscando patron...");
-			ArrayList<Integer> docs = cTree.searchAll(pattern, true);
-			if(docs.isEmpty()){
-				System.out.printf("No se ha encontrado el patrón '%s' en los textos.\n", pattern);
-			}else if(docs.size() == 1){
-				System.out.printf("El patron '%s' aparece en el texto %d.\n", pattern, docs.get(0));
-			}else{
-				System.out.printf("El patron '%s' aparece en los textos:\n", pattern);
-				System.out.print("\t");
-				for (Integer i : docs){
-					System.out.printf("%d ", i);
-				}
-			}
+		if(args.length >= 3){		//Buscar los textos que contienen el patron
 			
+			if(args[2].equalsIgnoreCase("-f")){
+				String pattern = args[0];
+				int numTexts = 0;
+				try{
+					numTexts = Integer.parseInt(args[1]);
+				}catch(NumberFormatException ex){
+					System.err.println("Entrada invalida. Formato de ejecucion:\n"
+							+ "\tSuffixTree <patron> <texto>\n"
+							+ "\tSuffixTree <patron> <numTextos> [-f] <texto>{numTextos}");
+					System.exit(1);
+				}
+				System.out.println("Creando arbol compacto de sufijos...");
+				String s = parseGen(args[3]);
+				SimpleSuffixTree sTree = new SimpleSuffixTree(s);
+				for(int i=4,j=2; i<args.length; i++, j++){
+					s = parseGen(args[i]);
+					sTree.addText(s, j);
+				}
+				CompactSuffixTree cTree = new CompactSuffixTree(sTree);
+				System.out.println("Buscando patron...");
+				ArrayList<Integer> docs = cTree.searchAll(pattern, true);
+				if(docs.isEmpty()){
+					System.out.printf("No se ha encontrado el patrón '%s' en los textos.\n", pattern);
+				}else if(docs.size() == 1){
+					System.out.printf("El patron '%s' aparece en el texto %d.\n", pattern, docs.get(0));
+				}else{
+					System.out.printf("El patron '%s' aparece en los textos:\n", pattern);
+					System.out.print("\t");
+					for (Integer i : docs){
+						System.out.printf("%d ", i);
+					}
+				}
+			}else{
+			
+			
+				String pattern = args[0];
+				int numTexts = 0;
+				try{
+					numTexts = Integer.parseInt(args[1]);
+				}catch(NumberFormatException ex){
+					System.err.println("Entrada invalida. Formato de ejecucion:\n"
+							+ "\tSuffixTree <patron> <texto>\n"
+							+ "\tSuffixTree <patron> <numTextos> <texto>{numTextos}");
+					System.exit(1);
+				}
+				if(args.length == (numTexts+2)){
+					System.out.println("Creando arbol compacto de sufijos...");
+					SimpleSuffixTree sTree = new SimpleSuffixTree(args[2]);
+					for(int i=3, j=2; i<args.length; i++, j++){
+						sTree.addText(args[i], j);
+					}
+					CompactSuffixTree cTree = new CompactSuffixTree(sTree);
+					System.out.println("Buscando patron...");
+					ArrayList<Integer> docs = cTree.searchAll(pattern, true);
+					if(docs.isEmpty()){
+						System.out.printf("No se ha encontrado el patrón '%s' en los textos.\n", pattern);
+					}else if(docs.size() == 1){
+						System.out.printf("El patron '%s' aparece en el texto %d.\n", pattern, docs.get(0));
+					}else{
+						System.out.printf("El patron '%s' aparece en los textos:\n", pattern);
+						System.out.print("\t");
+						for (Integer i : docs){
+							System.out.printf("%d ", i);
+						}
+					}
+				}else{
+					System.err.println("ERROR. Numero de textos introducidos por parametros no coincide con el numero\n"
+							+ "de textos introducidos");
+				}
+				
+			}
+		
 		}else if(args.length == 2){		//Buscar todas las apariciones del patron en un texto
 			String pattern = args[0];
 			String text = args[1];
@@ -63,43 +104,7 @@ public class SuffixTree {
 				for (Integer i : list){
 					System.out.printf("%d ", i);
 				}
-			}
-			
-		}else if(args.length >= 3){		//Buscar los textos que contienen el patron
-			String pattern = args[0];
-			int numTexts = 0;
-			try{
-				numTexts = Integer.parseInt(args[1]);
-			}catch(NumberFormatException ex){
-				System.err.println("Entrada invalida. Formato de ejecucion:\n"
-						+ "\tSuffixTree <patron> <texto>\n"
-						+ "\tSuffixTree <patron> <numTextos> <texto>{numTextos}");
-				System.exit(1);
-			}
-			if(args.length == (numTexts+2)){
-				System.out.println("Creando arbol compacto de sufijos...");
-				SimpleSuffixTree sTree = new SimpleSuffixTree(args[2]);
-				for(int i=3, j=2; i<args.length; i++, j++){
-					sTree.addText(args[i], j);
-				}
-				CompactSuffixTree cTree = new CompactSuffixTree(sTree);
-				System.out.println("Buscando patron...");
-				ArrayList<Integer> docs = cTree.searchAll(pattern, true);
-				if(docs.isEmpty()){
-					System.out.printf("No se ha encontrado el patrón '%s' en los textos.\n", pattern);
-				}else if(docs.size() == 1){
-					System.out.printf("El patron '%s' aparece en el texto %d.\n", pattern, docs.get(0));
-				}else{
-					System.out.printf("El patron '%s' aparece en los textos:\n", pattern);
-					System.out.print("\t");
-					for (Integer i : docs){
-						System.out.printf("%d ", i);
-					}
-				}
-			}else{
-				System.err.println("ERROR. Numero de textos introducidos por parametros no coincide con el numero\n"
-						+ "de textos introducidos");
-			}
+			}	
 			
 		}else{
 			System.err.println("Entrada invalida. Formato de ejecucion:\n"
