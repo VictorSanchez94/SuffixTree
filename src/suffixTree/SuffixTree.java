@@ -12,8 +12,17 @@ public class SuffixTree {
 	 */
 	public static void main(String[] args) {
 
-		if(args.length > 3){		//Buscar los textos que contienen el patron
-			
+		if(args[0].equalsIgnoreCase("rdm")){
+			if(args.length == 5){
+				int numVar = Integer.parseInt(args[1]);
+				int lengthPattern = Integer.parseInt(args[2]);
+				int lengthText = Integer.parseInt(args[3]);
+				int numTexts = Integer.parseInt(args[4]);
+				
+			}else{
+				System.err.println("ERROR. Funcion con patron y textos aleatorios mal invocada.");
+			}
+		}else if(args.length > 3){		//Buscar los textos que contienen el patron
 			if(args[2].equalsIgnoreCase("-f")){
 				String pattern = args[0];
 				int numTexts = 0;
@@ -25,8 +34,9 @@ public class SuffixTree {
 							+ "\tSuffixTree <patron> <numTextos> [-f] <texto>{numTextos}");
 					System.exit(1);
 				}
-				System.out.println("Creando arbol compacto de sufijos...");
+				System.out.println("Parseando ficheros...");
 				String s = parseGen(args[3]);
+				System.out.println("Creando arbol compacto de sufijos...");
 				SimpleSuffixTree sTree = new SimpleSuffixTree(s);
 				for(int i=4,j=2; i<args.length; i++, j++){
 					s = parseGen(args[i]);
@@ -47,8 +57,6 @@ public class SuffixTree {
 					}
 				}
 			}else{
-			
-			
 				String pattern = args[0];
 				int numTexts = 0;
 				try{
@@ -88,6 +96,7 @@ public class SuffixTree {
 		
 		}else if(args.length == 3 && args[1].equalsIgnoreCase("-f")){	//Buscar todas las apariciones del patron en un fichero
 			String pattern = args[0];
+			System.out.println("Parseando ficheros...");
 			String text = parseGen(args[2]);
 			System.out.println("Creando arbol compacto de sufijos...");
 			SimpleSuffixTree sTree = new SimpleSuffixTree(text);
