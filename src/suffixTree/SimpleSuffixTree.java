@@ -5,6 +5,9 @@ import java.util.List;
 
 public class SimpleSuffixTree extends AbstractSuffixTree {
 
+	/**
+	 * Create a SimpleSuffixTree
+	 */
 	public SimpleSuffixTree(String text) {
 		super(text);
 		constructTree(1);

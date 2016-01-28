@@ -17,7 +17,7 @@ public class SuffixTree {
 	 */
 	public static void main(String[] args) {
 
-		if(args[0].equalsIgnoreCase("rdm")){
+		if(args[0].equalsIgnoreCase("rdm")){	// Create a random suffixTree and pattern to search
 			if(args.length == 5){
 				int numVar = Integer.parseInt(args[1]);
 				int lengthPattern = Integer.parseInt(args[2]);
@@ -50,7 +50,7 @@ public class SuffixTree {
 			}else{
 				System.err.println("ERROR. Funcion con patron y textos aleatorios mal invocada.");
 			}
-		}else if(args.length > 3){		//Buscar los textos que contienen el patron
+		}else if(args.length > 3){		// Search text with the specified pattern
 			if(args[2].equalsIgnoreCase("-f")){
 				String pattern = args[0];
 				int numTexts = 0;
@@ -122,7 +122,7 @@ public class SuffixTree {
 				
 			}
 		
-		}else if(args.length == 3 && args[1].equalsIgnoreCase("-f")){	//Buscar todas las apariciones del patron en un fichero
+		}else if(args.length == 3 && args[1].equalsIgnoreCase("-f")){	// Search all pattern's positions in the specified text
 			String pattern = args[0];
 			System.out.println("Parseando ficheros...");
 			String text = parseGen(args[2]);
@@ -167,26 +167,12 @@ public class SuffixTree {
 					+ "\tSuffixTree <patron> <texto>\n"
 					+ "\tSuffixTree <patron> <numTextos> <texto>{numTextos}");
 		}
-
-		
-		
-//		SimpleSuffixTree sTree = new SimpleSuffixTree("aaabbbc");
-//		sTree.addText("aaab", 2);
-//		sTree.addText("abb", 3);
-//		System.out.println(sTree.root);
-//		
-//		CompactSuffixTree tree = new CompactSuffixTree(sTree);
-//		System.out.println(tree.root);
-//		
-//		String pattern = "abb";
-//		ArrayList<Integer> result = tree.searchAll(pattern, true);
-//		System.out.println(result);
-//		System.out.println("Num matches: " + result.size());
-//		System.out.println("Text: " + tree.text);
-//		System.out.println("Pattern: " + pattern);
 		
 	}
 	
+	/**
+	 * Return a String with the content of the file from path
+	 */
 	private static String parseGen (String path) {
 		Scanner sc;
 		try {
@@ -208,6 +194,9 @@ public class SuffixTree {
 	}
 	
 
+	/**
+	 * Return a random String with the specified length and number of variables
+	 */
 	private static String getRandomString(int length, int numVariables) {
 		String s = "";
 		Random r  = new Random();

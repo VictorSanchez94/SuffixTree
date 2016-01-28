@@ -19,6 +19,9 @@ public class SuffixTreeNode {
 	int charPosition;		// character's position in the text
 	HashSet<Integer> docsNode;
 
+	/**
+	 * Create a SuffixTreeNode
+	 */
 	public SuffixTreeNode(SuffixTreeNode parent, String incomingLabel, int depth, int label, int id, int acumulatedLength, int numDoc) {
 		children = new ArrayList<SuffixTreeNode>();
 		incomingEdge = new SuffixTreeEdge(incomingLabel, label);
@@ -33,6 +36,9 @@ public class SuffixTreeNode {
 		this.docsNode.add(numDoc);
 	}
 
+	/**
+	 * Create an empty SuffixTreeNode
+	 */
 	public SuffixTreeNode() {
 		children = new ArrayList<SuffixTreeNode>();
 		nodeDepth = 0;
@@ -40,6 +46,9 @@ public class SuffixTreeNode {
 		docsNode = new HashSet<Integer>();
 	}
 
+	/**
+	 * Add a new suffix with the specified numDoc and position
+	 */
 	public void addSuffix(List<String> suffix, int pathIndex, int acumulatedLength, int numDoc, boolean addingText) {
 		SuffixTreeNode insertAt = this;
 		if(addingText){
@@ -50,6 +59,9 @@ public class SuffixTreeNode {
 		insert(insertAt, suffix, pathIndex, acumulatedLength, numDoc);
 	}
 
+	/**
+	 * Return the new suffix's parent node
+	 */
 	private SuffixTreeNode search(SuffixTreeNode startNode, List<String> suffix) {
 		if (suffix.isEmpty()) {
 			throw new IllegalArgumentException(
@@ -68,6 +80,9 @@ public class SuffixTreeNode {
 		return startNode;
 	}
 	
+	/**
+	 * Return the new suffix's parent node
+	 */
 	private SuffixTreeNode search(SuffixTreeNode startNode, List<String> suffix, int numDoc) {
 		if (suffix.isEmpty()) {
 			throw new IllegalArgumentException(
@@ -87,6 +102,9 @@ public class SuffixTreeNode {
 		return startNode;
 	}
 
+	/**
+	 * Insert a new node
+	 */
 	private void insert(SuffixTreeNode insertAt, List<String> suffix, int pathIndex, int acumulatedLength, int numDoc) {
 		for (String s:suffix) {
 			SuffixTreeNode child = new SuffixTreeNode(insertAt, s, insertAt.nodeDepth + 1, pathIndex, id, acumulatedLength, numDoc);

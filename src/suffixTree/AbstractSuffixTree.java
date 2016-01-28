@@ -1,5 +1,8 @@
 package suffixTree;
 
+/**
+ * SuffixTree abstraction
+ */
 public class AbstractSuffixTree {
 
 	String text = null;
